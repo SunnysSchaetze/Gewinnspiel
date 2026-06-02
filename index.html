@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Gewinnspiel</title>
+
 <style>
 html {
     background-color: #ff7f00;
@@ -24,11 +26,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .textbox {
     text-align: center;
     padding: 20px;
+    z-index: 10;
 }
 
 h3 {
@@ -50,28 +54,183 @@ a {
     color: #ffcc80;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s;
 }
 
 a:hover {
     color: #ff7f00;
 }
+
+.gift-wrapper {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+    z-index: 1;
+}
+
+.gift-box {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+    background: #ff7f00;
+    border-radius: 12px;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.lid {
+    width: 120px;
+    height: 25px;
+    background: #ffa94d;
+    position: absolute;
+    top: 0;
+    border-radius: 10px;
+    transform-origin: bottom center;
+    transition: transform 0.6s ease;
+}
+
+.open .lid {
+    transform: rotateX(120deg) translateY(-20px);
+}
+
+.ribbon-vertical {
+    position: absolute;
+    width: 18px;
+    height: 100%;
+    background: #ff0000;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 6px;
+}
+
+.ribbon-horizontal {
+    position: absolute;
+    width: 100%;
+    height: 18px;
+    background: #ff0000;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+}
+
+.bow {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 45px;
+}
+
+.bow-left {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #ff0000;
+    border-radius: 50% 50% 0 50%;
+    transform: rotate(-25deg);
+    left: 0;
+}
+
+.bow-right {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #ff0000;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(25deg);
+    right: 0;
+}
 </style>
 
-<title>Gewinnspiel</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 </head>
+
 <body>
 
 <div class="textbox">
     <h3>Hier kannst du Schätze aus unserem Gewinnspiel gewinnen!</h3>
     <ul>
         <li>
-            🎉 <a href="https://sites.google.com/view/sunnysschaetze/home/formulare/gewinnspiel" target="_blank">
+            <a href="#" onclick="openGift(event)">
                 Zum Gewinnspiel
             </a>
         </li>
     </ul>
+
+    <div class="gift-wrapper" id="giftWrapper">
+        <div class="gift-box" id="giftBox">
+
+            <div class="lid"></div>
+            <div class="box"></div>
+
+            <div class="ribbon-vertical"></div>
+            <div class="ribbon-horizontal"></div>
+
+            <div class="bow">
+                <div class="bow-left"></div>
+                <div class="bow-right"></div>
+            </div>
+
+        </div>
+    </div>
 </div>
+
+<script>
+function openGift(event) {
+    event.preventDefault();
+
+    const wrapper = document.getElementById("giftWrapper");
+    const box = document.getElementById("giftBox");
+
+    wrapper.style.display = "block";
+
+    setTimeout(() => {
+        box.classList.add("open");
+    }, 200);
+
+    setTimeout(() => {
+        const rect = box.getBoundingClientRect();
+
+        confetti({
+            particleCount: 160,
+            spread: 90,
+            origin: {
+                x: rect.left / window.innerWidth,
+                y: rect.top / window.innerHeight
+            }
+        });
+
+    }, 900);
+
+    setTimeout(() => {
+        confetti({
+            particleCount: 120,
+            spread: 140,
+            origin: { x: 0.5, y: 0.4 }
+        });
+    }, 1100);
+
+    setTimeout(() => {
+        window.open(
+            "https://sites.google.com/view/sunnysschaetze/home/formulare/gewinnspiel",
+            "_blank"
+        );
+    }, 1800);
+
+    setTimeout(() => {
+        wrapper.style.display = "none";
+        box.classList.remove("open");
+    }, 2200);
+}
+</script>
 
 </body>
 </html>
