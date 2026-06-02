@@ -3,232 +3,284 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Gewinnspiel</title>
-
-<style>
-html {
-    background-color: #ff7f00;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    min-height: calc(100vh - 20px);
-    background-color: #000000;
-    color: orange;
-    font-family: Arial, sans-serif;
-
-    border-radius: 25px;
-    overflow: hidden;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.textbox {
-    text-align: center;
-    padding: 20px;
-    z-index: 10;
-}
-
-h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-li {
-    font-size: 1.2em;
-}
-
-a {
-    color: #ffcc80;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    color: #ff7f00;
-}
-
-.gift-wrapper {
-    display: none;
-    margin-top: 30px;
-    text-align: center;
-    z-index: 1;
-}
-
-.gift-box {
-    width: 120px;
-    height: 120px;
-    position: relative;
-    margin: 0 auto;
-}
-
-.box {
-    width: 100%;
-    height: 100%;
-    background: #ff7f00;
-    border-radius: 12px;
-    position: absolute;
-    bottom: 0;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-}
-
-.lid {
-    width: 120px;
-    height: 25px;
-    background: #ffa94d;
-    position: absolute;
-    top: 0;
-    border-radius: 10px;
-    transform-origin: bottom center;
-    transition: transform 0.6s ease;
-}
-
-.open .lid {
-    transform: rotateX(120deg) translateY(-20px);
-}
-
-.ribbon-vertical {
-    position: absolute;
-    width: 18px;
-    height: 100%;
-    background: #ff0000;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 6px;
-}
-
-.ribbon-horizontal {
-    position: absolute;
-    width: 100%;
-    height: 18px;
-    background: #ff0000;
-    top: 50%;
-    transform: translateY(-50%);
-    border-radius: 6px;
-}
-
-.bow {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 45px;
-}
-
-.bow-left {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background: #ff0000;
-    border-radius: 50% 50% 0 50%;
-    transform: rotate(-25deg);
-    left: 0;
-}
-
-.bow-right {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background: #ff0000;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(25deg);
-    right: 0;
-}
-</style>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+<style>
+html{
+    background:#ff7f00;
+    padding:10px;
+    box-sizing:border-box;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:calc(100vh - 20px);
+    background:#000;
+    color:orange;
+    font-family:Arial,sans-serif;
+    border-radius:25px;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.textbox{
+    text-align:center;
+    padding:20px;
+}
+
+h3{
+    font-size:24px;
+    margin-bottom:25px;
+}
+
+ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+a{
+    color:#ffcc80;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:1.2em;
+}
+
+a:hover{
+    color:#ff7f00;
+}
+
+#overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+}
+
+#overlay.active{
+    opacity:1;
+    pointer-events:all;
+}
+
+.scene{
+    position:relative;
+    width:320px;
+    height:320px;
+}
+
+.gift-box{
+    width:160px;
+    height:160px;
+    position:absolute;
+    left:50%;
+    bottom:40px;
+    transform:translateX(-50%);
+}
+
+.box{
+    width:100%;
+    height:100%;
+    position:absolute;
+    bottom:0;
+    background:linear-gradient(135deg,#ffcb7d,#ffab2d,#ff7f00);
+    border-radius:16px;
+    box-shadow:0 15px 30px rgba(0,0,0,.5),
+               inset 0 3px 8px rgba(255,255,255,.25);
+}
+
+.lid{
+    width:170px;
+    height:40px;
+    position:absolute;
+    left:50px;
+    top:-6px;
+    background:linear-gradient(135deg,#ffd38d,#ff9f1a);
+    border-radius:14px;
+    box-shadow:0 10px 20px rgba(0,0,0,.45),
+               inset 0 3px 6px rgba(255,255,255,.35);
+    transform-origin:left center;
+    transition:transform 1s cubic-bezier(.2,.9,.2,1);
+    z-index:20;
+}
+
+.open .lid{
+    transform:perspective(1200px) rotateX(-115deg) rotateZ(55deg) translateX(95px) translateY(-55px);
+}
+
+.ribbon-vertical{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:22px;
+    height:100%;
+    background:linear-gradient(to right,#b80000,#ff2a2a,#b80000);
+    border-radius:8px;
+    z-index:2;
+}
+
+.ribbon-horizontal{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:100%;
+    height:22px;
+    background:linear-gradient(to bottom,#b80000,#ff2a2a,#b80000);
+    border-radius:8px;
+    z-index:2;
+}
+
+.bow{
+    position:absolute;
+    top:-18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:130px;
+    height:120px;
+    transition:transform 1s ease;
+    z-index:30;
+}
+
+.open .bow{
+    transform:translateX(55px) translateY(-20px) rotate(-10deg);
+}
+
+.bow-left,
+.bow-right{
+    position:absolute;
+    width:55px;
+    height:55px;
+    background:linear-gradient(135deg,#ff5050,#c00000);
+    box-shadow:0 5px 10px rgba(0,0,0,.3), inset 2px 2px 5px rgba(255,255,255,.25);
+}
+
+.bow-left{
+    left:2px;
+    top:2px;
+    border-radius:85% 85% 20% 85%;
+    transform:rotate(-35deg);
+}
+
+.bow-right{
+    right:2px;
+    top:2px;
+    border-radius:85% 85% 85% 20%;
+    transform:rotate(35deg);
+}
+
+.bow-center{
+    position:absolute;
+    width:24px;
+    height:24px;
+    left:50%;
+    top:18px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:radial-gradient(circle,#ff8b8b,#990000);
+    box-shadow:0 3px 6px rgba(0,0,0,.4);
+    z-index:40;
+}
+
+.ribbon-tail-left,
+.ribbon-tail-right{
+    position:absolute;
+    width:12px;
+    height:75px;
+    top:28px;
+    left:50%;
+    background:linear-gradient(to bottom,#ff2f2f,#a80000);
+    border-radius:5px;
+    transform-origin:top center;
+}
+
+.ribbon-tail-left{
+    transform:translateX(-50%) rotate(30deg);
+}
+
+.ribbon-tail-right{
+    transform:translateX(-50%) rotate(-30deg);
+}
+
+.ribbon-tail-left::after,
+.ribbon-tail-right::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-1px;
+    width:100%;
+    height:14px;
+    background:#000;
+    clip-path:polygon(0 0,35% 100%,50% 65%,65% 100%,100% 0);
+}
+</style>
 </head>
 
 <body>
 
 <div class="textbox">
-    <h3>Hier kannst du Schätze aus unserem Gewinnspiel gewinnen!</h3>
-    <ul>
-        <li>
-            <a href="#" onclick="openGift(event)">
-                🎉 Zum Gewinnspiel
-            </a>
-        </li>
-    </ul>
+<h3>Hier kannst du Schätze aus unserem Gewinnspiel gewinnen!</h3>
+<ul>
+<li><a href="#" onclick="openGift(event)">🎉 Zum Gewinnspiel</a></li>
+</ul>
+</div>
 
-    <div class="gift-wrapper" id="giftWrapper">
+<div id="overlay">
+    <div class="scene">
         <div class="gift-box" id="giftBox">
-
-            <div class="lid"></div>
-            <div class="box"></div>
-
-            <div class="ribbon-vertical"></div>
-            <div class="ribbon-horizontal"></div>
-
-            <div class="bow">
-                <div class="bow-left"></div>
-                <div class="bow-right"></div>
+            <div class="lid">
+                <div class="bow">
+                    <div class="bow-left"></div>
+                    <div class="bow-right"></div>
+                    <div class="bow-center"></div>
+                    <div class="ribbon-tail-left"></div>
+                    <div class="ribbon-tail-right"></div>
+                </div>
             </div>
 
+            <div class="box"></div>
+            <div class="ribbon-vertical"></div>
+            <div class="ribbon-horizontal"></div>
         </div>
     </div>
 </div>
 
 <script>
-function openGift(event) {
-    event.preventDefault();
+function openGift(event){
+event.preventDefault();
 
-    const wrapper = document.getElementById("giftWrapper");
-    const box = document.getElementById("giftBox");
+const overlay=document.getElementById("overlay");
+const box=document.getElementById("giftBox");
 
-    wrapper.style.display = "block";
+overlay.classList.add("active");
 
-    setTimeout(() => {
-        box.classList.add("open");
-    }, 200);
+setTimeout(()=>box.classList.add("open"),300);
 
-    setTimeout(() => {
-        const rect = box.getBoundingClientRect();
+setTimeout(()=>{
+confetti({
+particleCount:170,
+spread:110,
+startVelocity:40,
+origin:{x:0.5,y:0.45}
+});
+},1200);
 
-        confetti({
-            particleCount: 160,
-            spread: 90,
-            origin: {
-                x: rect.left / window.innerWidth,
-                y: rect.top / window.innerHeight
-            }
-        });
-
-    }, 900);
-
-    setTimeout(() => {
-        confetti({
-            particleCount: 120,
-            spread: 140,
-            origin: { x: 0.5, y: 0.4 }
-        });
-    }, 1100);
-
-    setTimeout(() => {
-        window.open(
-            "https://sites.google.com/view/sunnysschaetze/home/formulare/gewinnspiel",
-            "_blank"
-        );
-    }, 1800);
-
-    setTimeout(() => {
-        wrapper.style.display = "none";
-        box.classList.remove("open");
-    }, 2200);
+setTimeout(()=>{
+window.open("https://sites.google.com/view/sunnysschaetze/home/formulare/gewinnspiel","_blank");
+overlay.classList.remove("active");
+box.classList.remove("open");
+},2200);
 }
 </script>
 
