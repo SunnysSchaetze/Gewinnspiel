@@ -37,7 +37,7 @@ h3{
     margin-bottom:25px;
 }
 
-/* BUTTON UMS SMILEY + TEXT */
+/* BUTTON */
 .gift-btn{
     display:inline-flex;
     align-items:center;
@@ -110,12 +110,13 @@ ul{
                inset 0 3px 8px rgba(255,255,255,.25);
 }
 
+/* Deckel bündig */
 .lid{
-    width:170px;
+    width:100%;
     height:40px;
     position:absolute;
-    left:50px;
-    top:-6px;
+    left:0;
+    top:0;
     background:linear-gradient(135deg,#ffd38d,#ff9f1a);
     border-radius:14px;
     box-shadow:0 10px 20px rgba(0,0,0,.45),
@@ -151,11 +152,12 @@ ul{
     z-index:2;
 }
 
+/* Schleife mittig auf dem Deckel */
 .bow{
     position:absolute;
-    top:-18px;
+    top:50%;
     left:50%;
-    transform:translateX(-50%);
+    transform:translate(-50%,-50%);
     width:130px;
     height:120px;
     transition:transform 1s ease;
@@ -163,7 +165,7 @@ ul{
 }
 
 .open .bow{
-    transform:translateX(55px) translateY(-20px) rotate(-10deg);
+    transform:translate(-50%,-50%) rotate(-10deg) scale(0.98);
 }
 
 .bow-left,
@@ -272,29 +274,29 @@ ul{
 
 <script>
 function openGift(event){
-event.preventDefault();
+    event.preventDefault();
 
-const overlay=document.getElementById("overlay");
-const box=document.getElementById("giftBox");
+    const overlay=document.getElementById("overlay");
+    const box=document.getElementById("giftBox");
 
-overlay.classList.add("active");
+    overlay.classList.add("active");
 
-setTimeout(()=>box.classList.add("open"),300);
+    setTimeout(()=>box.classList.add("open"),300);
 
-setTimeout(()=>{
-confetti({
-particleCount:170,
-spread:110,
-startVelocity:40,
-origin:{x:0.5,y:0.45}
-});
-},1200);
+    setTimeout(()=>{
+        confetti({
+            particleCount:170,
+            spread:110,
+            startVelocity:40,
+            origin:{x:0.5,y:0.45}
+        });
+    },1200);
 
-setTimeout(()=>{
-window.open("https://sites.google.com/view/sunnysschaetze/home/formulare/gewinnspiel","_blank");
-overlay.classList.remove("active");
-box.classList.remove("open");
-},2200);
+    setTimeout(()=>{
+        window.open("https://sites.google.com/view/sunnysschaetze/home/formulare/gewinnspiel","_blank");
+        overlay.classList.remove("active");
+        box.classList.remove("open");
+    },2200);
 }
 </script>
 
